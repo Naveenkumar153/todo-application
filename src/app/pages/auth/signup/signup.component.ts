@@ -18,8 +18,7 @@ export class SignupComponent implements OnInit {
       validators:[Validators.required,Validators.email],
       updateOn:'blur'
     }],
-    password:['',[Validators.required]
-    ]
+    password:['',[Validators.required]]
   });
   constructor(private fb:NonNullableFormBuilder,public authService: AuthService){
 
@@ -33,7 +32,8 @@ export class SignupComponent implements OnInit {
     let data = this.form.value
     console.log(data);
     this.authService.register(data).subscribe(res => {
-      console.log(res);
+      // console.log(res.message)
+      // console.log(res.error);
     })
   }
 }
