@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,7 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./todo.component.scss']
 })
 export class TodoComponent {
-  constructor(public router:Router){
+
+  form = this.fb.group({
+    todo:[ '',[Validators.required]],
+  });
+
+  constructor(public router:Router,private fb:NonNullableFormBuilder){
 
   }
 
@@ -16,4 +22,11 @@ export class TodoComponent {
     // this.router.navigate(['/auth/signin'])
     this.router.navigate(['/signin'])
   }
+
+  onSubmit(){
+    if(!this.form.valid) return
+    let data = this.form.value
+    console.log(data);
+  }
+
 }
