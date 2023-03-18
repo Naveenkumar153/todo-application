@@ -1,0 +1,33 @@
+
+
+%flex-shared{
+    display: flex;
+    align-items: center;
+}
+
+.container{
+    .form{
+        .close-dialog{
+            @extend %flex-shared;
+            justify-content: flex-end;
+        }
+        .otp-text{
+            @extend %flex-shared;
+            justify-content: center;
+            flex-direction: column;
+            .otp-email{
+                font-size: .91rem;
+            }
+        }
+        .otp-box{
+            @extend %flex-shared;
+            justify-content: center;
+            padding-bottom: 60px;
+            .resend-otp{
+                position: relative !important;
+                top: -50px !important;
+                margin-left: 20px !important;
+            }
+        }
+    }
+}

@@ -2,3 +2,21 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.error-snakBar{
+    background-color: #dc5050;
+    color:#c2c1c1;
+}
+.success-snakBar{
+    background-color: #5edc50;
+    color:#c2c1c1;
+}
+.info-snakBar{
+    background-color: #939292;
+    color:hwb(0 17% 83%);
+}
+
+.otp-mat-dialog{
+    
+}

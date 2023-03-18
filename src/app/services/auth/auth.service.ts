@@ -23,6 +23,10 @@ export class AuthService {
 
    }
 
+   resendEmailVerification(data:string){
+    return this.api.get('user/send/verification-email',data);
+   }
+
    logout(){
     
    }
