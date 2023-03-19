@@ -11,8 +11,8 @@ export class AuthService {
 
    }
 
-   login(){
-
+   login(data:any){
+    return this.api.get('user/login',data);
    }
 
    register(data:any){

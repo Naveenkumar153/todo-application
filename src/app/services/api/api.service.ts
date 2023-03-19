@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,6 +12,7 @@ export class ApiService {
   constructor(public http:HttpClient,) { }
 
   get(url:any, data?:any){
+    // return this.http.get<any>(this.apiEndPoint.serverBaseUrl + url, { params: data})
     return this.http.get<any>(this.apiEndPoint.serverBaseUrl + url, data)
   }
 

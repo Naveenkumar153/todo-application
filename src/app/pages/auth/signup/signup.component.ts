@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit {
     let data = this.form.value
     console.log(data);
     this.authService.register(data).subscribe(res => {
-       console.log(res);
+        
        if(res.status === HttpStatusCode.OK){
           // this.globalSnakbar.successSnakBar(res.message);
           this.globalSnakbar.successSnakBar('OTP sent to your register email');

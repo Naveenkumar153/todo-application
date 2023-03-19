@@ -1,7 +1,7 @@
 <div class="form">
     <mat-card class="mat-card">
         <mat-card-content class="mat-card-content">
-            <form class="form-container">
+            <form class="form-container" [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div  class="form-header form-field">
                     <h3 class="header">Login</h3>
                 </div>
@@ -9,18 +9,18 @@
                     <mat-form-field class="mat-form-field">
                         <mat-icon matPrefix>email</mat-icon>
                         <mat-label>Email</mat-label>
-                        <input matInput placeholder="Enter your email" class="mat-input">
+                        <input type="email" matInput placeholder="Enter your email" class="mat-input"  name="email" formControlName="email">
                     </mat-form-field>
                 </div>
                 <div class="form-field">
                     <mat-form-field class="mat-form-field">
                         <mat-icon matPrefix>visibility</mat-icon>
                         <mat-label>Password</mat-label>
-                        <input matInput placeholder="Enter your password">
+                        <input type="password" matInput placeholder="Enter your password" name="password" formControlName="password">
                     </mat-form-field>
                 </div>
                 <div class="form-field signup-btn">
-                    <button mat-raised-button color="primary" class="signup-btn__btn" routerLink="/signup">Login</button>
+                    <button mat-raised-button color="primary" class="signup-btn__btn" >Login</button>
                 </div>
                 <div class="forget-password">
                      <a class="forget-password__text" routerLink="/forgot-password">Forgot password</a>
