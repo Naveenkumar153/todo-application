@@ -6,42 +6,41 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { catchError, Observable, retry, tap, throwError} from 'rxjs';
+import { catchError, map, Observable, retry, switchMap, tap, throwError} from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GlobalService } from '../services/global/global.service';
 import { HttpStatusCode } from '../enum/httpstatuscode';
+import { LocalstorageService } from '../services/storage/localstorage.service';
+import { environment } from 'src/environments/environment';
+import { AuthService } from '../services/auth/auth.service';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 
-  constructor(private globalSnackbar:GlobalService, ) {}
+  constructor(
+    private globalSnackbar:GlobalService,
+    private storage:LocalstorageService,
+    private auth:AuthService,
+  ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request)
-    .pipe(
-      // tap(
-      //    (event) => {},
-      //    (error:HttpErrorResponse) => {
-      //      if(error.status === HttpStatusCode.UNAUTHORIZED){
-      //         return this.globalSnackbar.errorSnakBar('Your session has expired');
-      //      }
+    
+    const isApiUrl = request.url.startsWith(environment.serverBaseUrl);
+    
+    return this.auth.isLoggedIn().pipe(
+      switchMap(token => {
+          console.log('token', token);
+          if(token && isApiUrl){
+            request = request.clone({
+                setHeaders:{
+                  Authorization: `Bearer ${token}`
+                }
+            })
+          }
+          return next.handle(request)
+        }
+      )
+    )
 
-      //      if(error.status === HttpStatusCode.INTERNAL_SERVER_ERROR){
-      //         return this.globalSnackbar.errorSnakBar(error.message || 'Something is wrong please try again');
-      //      }
-
-      //      if(error.status === HttpStatusCode.NOT_FOUND){
-      //          return this.globalSnackbar.errorSnakBar(error.message || 'Not Found');
-      //      }
-      //    }
-      // ),
-      // catchError(
-      //   (error:HttpErrorResponse) => {
-      //   if(error.status ===  HttpStatusCode.UNKNOW_ERROR){
-      //     return throwError(() => error);
-      //   }
-      //   return throwError(() => error)
-      // })
-    );
   };
 }

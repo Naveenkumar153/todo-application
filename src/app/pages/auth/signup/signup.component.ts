@@ -6,6 +6,7 @@ import { HttpStatusCode } from 'src/app/enum/httpstatuscode';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { OtpSixDigitComponent } from 'src/app/components/otp/otp.component';
+import { LocalstorageService } from 'src/app/services/storage/localstorage.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -29,6 +30,7 @@ export class SignupComponent implements OnInit {
     public authService: AuthService,
     public globalSnakbar:GlobalService,
     private matDialog: MatDialog,
+    private storage:LocalstorageService,
   ){
 
   }
@@ -46,6 +48,9 @@ export class SignupComponent implements OnInit {
           // this.globalSnakbar.successSnakBar(res.message);
           this.globalSnakbar.successSnakBar('OTP sent to your register email');
           this.emailVerification(this.form.value.email!);
+          this.storage.setStorage('token', res?.data?.token);
+          this.storage.setStorage('email', res?.data?.email);
+          this.storage.setStorage('emailVerified', res?.data?.emailVerified);
        }
     })
   };
