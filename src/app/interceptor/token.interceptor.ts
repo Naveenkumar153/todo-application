@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth/auth.service';
 
 @Injectable()
-export class Interceptor implements HttpInterceptor {
+export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
     private globalSnackbar:GlobalService,
@@ -38,13 +38,6 @@ export class Interceptor implements HttpInterceptor {
       }
     }
     return next.handle(request);
-
-    // return this.auth.isLoggedIn().pipe(
-    //   switchMap(token => {
-    //       console.log('token', token);
-    //     }
-    //   )
-    // )
 
   };
 }

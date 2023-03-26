@@ -22,35 +22,39 @@ export class AuthService {
 
    login(data:any){
     return this.api.post('user/login',data);
-   }
+   };
 
    async getToken(){
     return await this.storage.getStorage('token')
-   }
+   };
 
    updateToken(value:any){
       this._token$.next(value);
-   }
+   };
 
    isLoggedIn(){
-    // return from(this.getToken());
      return this._token$.value;
-   }
+   };
 
    register(data:any){
      return this.api.post('user/signup',data);
-   }
+   };
 
    resetPassword(){
 
-   }
+   };
 
-   resendEmailVerification(data:string){
+   resendOtp(data?:any){
     return this.api.get('user/send/verification-email',data);
+   };
+
+
+   verifyOtp(data:any){
+    return this.api.patch('user/verify',data);
    }
 
    logout(){
       this.storage.clearStorage();
       this.router.navigateByUrl('user/signup');
-   }
+   };
 }

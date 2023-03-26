@@ -11,15 +11,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog'
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxOtpInputModule } from 'ngx-otp-input';
-import { Interceptor } from './interceptor/interceptor.interceptor';
+import { TokenInterceptor } from './interceptor/token.interceptor';
 import { TodoComponent } from './components/todo/todo.component';
 import { OtpSixDigitComponent } from './components/otp/otp.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { ShowhidepasswordDirective } from './directive/showhidepassword.directive';
+import { ErrorInterceptor } from './interceptor/error.interceptor';
+import { LoaderInterceptor } from './interceptor/loader.interceptor';
+import { LoaderComponent } from './components/loader/loader.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +31,7 @@ import { ShowhidepasswordDirective } from './directive/showhidepassword.directiv
     OtpSixDigitComponent,
     NotfoundComponent,
     ShowhidepasswordDirective,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,14 +47,13 @@ import { ShowhidepasswordDirective } from './directive/showhidepassword.directiv
     MatSnackBarModule,
     NgxOtpInputModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
-    {
-      provide:HTTP_INTERCEPTORS,
-      useClass:Interceptor,
-      multi:true
-    }
+    { provide:HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi:true },
+    { provide:HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true },
+    { provide:HTTP_INTERCEPTORS, useClass:LoaderInterceptor, multi:true }
   ],
   bootstrap: [AppComponent]
 })

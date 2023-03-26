@@ -41,7 +41,6 @@ export class SigninComponent {
     if(!this.form.valid) return
     let data = this.form.value
     this.authService.login(data).subscribe((res:any) => {
-      console.log(res)
         if(res.status === HttpStatusCode.OK){
           this.globalSnakbar.successSnakBar('Successfully login');
           this.storage.setStorage('token', res?.data?.token);
@@ -49,7 +48,6 @@ export class SigninComponent {
           this.storage.setStorage('emailVerified', res?.data?.emailVerified);
           this.router.navigate(['/home'])
         }else{
-            console.log(res.error)
             this.globalSnakbar.errorSnakBar(res?.error?.message);
         }
       }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -8,17 +8,18 @@ import { environment } from 'src/environments/environment';
 })
 export class ApiService {
   private apiEndPoint = environment
-
   constructor(public http:HttpClient,) { }
 
-  get(url:any, data?:any){
-    // return this.http.get<any>(this.apiEndPoint.serverBaseUrl + url, { params: data})
+  get(url:any, data?:any): Observable<any>{
     return this.http.get<any>(this.apiEndPoint.serverBaseUrl + url, data)
-  }
+  };
 
-  post(url:any, data:any){
-    console.log(data)
-    // const body = new HttpParams({fromObject:data})
+  post(url:any, data:any): Observable<any>{
     return this.http.post<any>(this.apiEndPoint.serverBaseUrl + url, data)
-  }
+  };
+
+  patch(url:any, data:any): Observable<any>{
+    return this.http.patch<any>(this.apiEndPoint.serverBaseUrl + url, data)
+  };
+  
 }

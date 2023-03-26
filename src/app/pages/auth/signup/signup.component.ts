@@ -8,6 +8,7 @@ import { GlobalService } from 'src/app/services/global/global.service';
 import { OtpSixDigitComponent } from 'src/app/components/otp/otp.component';
 import { LocalstorageService } from 'src/app/services/storage/localstorage.service';
 import { createPasswordStrengthValidator } from 'src/app/validators/password-strength';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -37,6 +38,7 @@ export class SignupComponent implements OnInit {
     public globalSnakbar:GlobalService,
     private matDialog: MatDialog,
     private storage:LocalstorageService,
+    private router:Router,
   ){
 
   }
@@ -47,13 +49,11 @@ export class SignupComponent implements OnInit {
   onSubmit(){
     if(!this.form.valid) return
     let data = this.form.value
-    console.log(data);
     this.authService.register(data).subscribe(res => {
-        
        if(res.status === HttpStatusCode.OK){
           // this.globalSnakbar.successSnakBar(res.message);
-          this.globalSnakbar.successSnakBar('OTP sent to your register email');
-          this.emailVerification(this.form.value.email!);
+          this.globalSnakbar.successSnakBar(`OTP sent to your ${res.data.email}`);
+          this.emailVerification(res.data.email);
           this.storage.setStorage('token', res?.data?.token);
           this.storage.setStorage('email', res?.data?.email);
           this.storage.setStorage('emailVerified', res?.data?.emailVerified);
@@ -63,16 +63,14 @@ export class SignupComponent implements OnInit {
   };
 
   emailVerification(email:string){
-    console.log(email);
     this.matDialog.open(OtpSixDigitComponent, {
       panelClass:['otp-mat-dialog'],
       width:'600px',
-      data:email
+      data:email,
+      disableClose:true,
     }).afterClosed()
     .pipe(filter((res) => res.status === HttpStatusCode.OK ))
-    .subscribe((data) => {
-      console.log(data);
-    });
+    .subscribe();
   };
 
   get email() {
