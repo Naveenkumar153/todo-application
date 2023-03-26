@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { from } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
 import { signUp } from 'src/app/interface/user.model';
 import { ApiService } from '../api/api.service';
 import { LocalstorageService } from '../storage/localstorage.service';
@@ -9,6 +9,12 @@ import { LocalstorageService } from '../storage/localstorage.service';
   providedIn: 'root'
 })
 export class AuthService {
+
+  public _token$ = new BehaviorSubject<string>(null!);
+
+  get token(){
+    return this._token$.asObservable();
+  }
 
   constructor(public api:ApiService, private storage:LocalstorageService,public router: Router) {
 
@@ -22,12 +28,17 @@ export class AuthService {
     return await this.storage.getStorage('token')
    }
 
+   updateToken(value:any){
+      this._token$.next(value);
+   }
+
    isLoggedIn(){
-    return from(this.getToken());
+    // return from(this.getToken());
+     return this._token$.value;
    }
 
    register(data:any){
-    return this.api.post('user/signup',data);
+     return this.api.post('user/signup',data);
    }
 
    resetPassword(){

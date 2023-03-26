@@ -26,21 +26,25 @@ export class Interceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     
     const isApiUrl = request.url.startsWith(environment.serverBaseUrl);
-    
-    return this.auth.isLoggedIn().pipe(
-      switchMap(token => {
-          console.log('token', token);
-          if(token && isApiUrl){
-            request = request.clone({
-                setHeaders:{
-                  Authorization: `Bearer ${token}`
-                }
-            })
-          }
-          return next.handle(request)
-        }
-      )
-    )
+    const token    = this.auth.isLoggedIn();
+
+    if(token && isApiUrl){
+      if(token && isApiUrl){
+        request = request.clone({
+            setHeaders:{
+              Authorization: `Bearer ${token}`
+            }
+        })
+      }
+    }
+    return next.handle(request);
+
+    // return this.auth.isLoggedIn().pipe(
+    //   switchMap(token => {
+    //       console.log('token', token);
+    //     }
+    //   )
+    // )
 
   };
 }

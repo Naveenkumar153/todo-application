@@ -18,6 +18,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                // margin-top: 10px;
                 .signup-btn__btn{
                     width: 100%;
                 }
@@ -46,6 +47,17 @@
                     border-bottom: 1px solid #000;
                 }
             }
+            .form-field:nth-child( -1n + 4):not(:first-child){
+                padding-bottom: 5px;
+                .field-message{
+                    font-size: 12px;
+                    position: relative;
+                    top: -20px;
+                }
+            }
+            .form-field:nth-child(4){
+                height: 90px;
+            }
         }
         .mat-card{
             padding: 30px;
@@ -58,6 +70,15 @@
         .mat-form-field{
             background-color: #fff ;
             width: 100%;
+            .mat-mdc-form-field-error-wrapper{
+                padding: 0px !important;
+            }
+            .mat-error{
+                font-size: 12px;
+            }
+            .cursor{
+                cursor: pointer;
+            }
         }
     }
     

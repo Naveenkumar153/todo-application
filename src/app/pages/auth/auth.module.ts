@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { OtpComponent } from './otp/otp.component';
+import { OnlyOneErrorPipe } from 'src/app/pipes/only-one-error-pipe';
 
 
 @NgModule({
@@ -19,7 +20,9 @@ import { OtpComponent } from './otp/otp.component';
     SigninComponent,
     SignupComponent,
     ForgotPasswordComponent,
-    OtpComponent
+    OtpComponent,
+    OnlyOneErrorPipe
+
   ],
   imports: [
     CommonModule,

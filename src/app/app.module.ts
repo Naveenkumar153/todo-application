@@ -18,11 +18,15 @@ import { NgxOtpInputModule } from 'ngx-otp-input';
 import { Interceptor } from './interceptor/interceptor.interceptor';
 import { TodoComponent } from './components/todo/todo.component';
 import { OtpSixDigitComponent } from './components/otp/otp.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { ShowhidepasswordDirective } from './directive/showhidepassword.directive';
 @NgModule({
   declarations: [
     AppComponent,
     TodoComponent,
     OtpSixDigitComponent,
+    NotfoundComponent,
+    ShowhidepasswordDirective,
   ],
   imports: [
     BrowserModule,

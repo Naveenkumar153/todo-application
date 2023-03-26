@@ -7,12 +7,16 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { OtpSixDigitComponent } from 'src/app/components/otp/otp.component';
 import { LocalstorageService } from 'src/app/services/storage/localstorage.service';
+import { createPasswordStrengthValidator } from 'src/app/validators/password-strength';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
+
+  showPassword: boolean = false;
+  
   form = this.fb.group({
     username:[ '',
     {
@@ -23,8 +27,10 @@ export class SignupComponent implements OnInit {
       validators:[Validators.required,Validators.email],
       updateOn:'blur'
     }],
-    password:['',[Validators.required]]
+    password:['',[Validators.required,Validators.minLength(8),
+      createPasswordStrengthValidator()]]
   });
+
   constructor(
     private fb:NonNullableFormBuilder,
     public authService: AuthService,
@@ -51,6 +57,7 @@ export class SignupComponent implements OnInit {
           this.storage.setStorage('token', res?.data?.token);
           this.storage.setStorage('email', res?.data?.email);
           this.storage.setStorage('emailVerified', res?.data?.emailVerified);
+          this.authService.updateToken(res?.data?.token)
        }
     })
   };
@@ -66,5 +73,17 @@ export class SignupComponent implements OnInit {
     .subscribe((data) => {
       console.log(data);
     });
+  };
+
+  get email() {
+    return this.form.controls['email'];
+  }
+
+  get password() {
+      return this.form.controls['password'];
+  }
+
+  get name(){
+    return this.form.controls['username'];
   }
 }
