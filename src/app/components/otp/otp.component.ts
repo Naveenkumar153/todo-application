@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { NgxOtpInputConfig } from 'ngx-otp-input';
+import { NgxOtpInputComponent, NgxOtpInputConfig } from 'ngx-otp-input';
 import { map } from 'rxjs';
 import { HttpStatusCode } from 'src/app/enum/httpstatuscode';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -15,6 +15,7 @@ import { LocalstorageService } from 'src/app/services/storage/localstorage.servi
 })
 export class OtpSixDigitComponent implements OnInit {
 
+  @ViewChild('ngxotp') ngxOtp!: NgxOtpInputComponent;
   getResendOtp:any;
 
   constructor(
@@ -49,26 +50,50 @@ export class OtpSixDigitComponent implements OnInit {
   handleOtpChange(value:string[]):void {
   };
   
-  handleFillEvent(value:string):void {   
-    if(value){
-      this.authService.verifyOtp({ verification_token:value }).subscribe(res => {
-        if(res.status == HttpStatusCode.OK){
-          this.localStorage.setStorage('emailVerified',res.data);
-          this.globalService.successSnakBar(res.message);
-          this.router.navigateByUrl('/home', { replaceUrl:true });
-          this.dialogRef.close();
-        }
-      });
+  handleFillEvent(value:string):void { 
+    console.log(this.data);
+    if(this.data?.verifyEmail){
+      if(value){
+        this.authService.verifyOtp({ verification_token:value }).subscribe(res => {
+          if(res.status == HttpStatusCode.OK){
+            this.globalService.successSnakBar(res.message);
+            this.router.navigate(['/home']);
+            this.dialogRef.close();
+          }
+        });
+      }
+    }else if(this.data.forgetPassword){
+      console.log(this.data)
+      if(value){
+        console.log(value);
+        this.authService.verifyResetPasswordOtp( { reset_password_token:value, email:this.data.email }).subscribe(res => {
+          console.log(res)
+          if(res.status == HttpStatusCode.OK){
+            this.localStorage.setStorage('email',this.data.email);
+            this.globalService.successSnakBar(res.message);
+            this.router.navigate(['/conform-password']);
+            this.dialogRef.close();
+          }
+        });
+      }
     }
+
+
+    
   };
 
-  verifiEmail(){
-    this.authService.resendOtp(this.data).subscribe((res) => {
-      if(res.data.status == HttpStatusCode.OK){
-        this.globalService.successSnakBar(`${res.data.message} to your ${this.data}`);
-      }
-     }
-    );
+  resendOTP(){
+    this.ngxOtp.clear();
+    if(this.data?.verifyEmail){
+      this.authService.resendOtp(this.data.email).subscribe((res) => {
+        if(res.status == HttpStatusCode.OK){
+          this.globalService.successSnakBar(`${res.message} to your ${this.data.email}`);
+        }
+       }
+      );
+    }else if(this.data.forgetPassword){
+      console.log(this.data)
+    }
   }
 
 }

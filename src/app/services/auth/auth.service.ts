@@ -40,21 +40,27 @@ export class AuthService {
      return this.api.post('user/signup',data);
    };
 
-   resetPassword(){
-
+   resetPasswordOtp(data:any){
+     return this.api.post('user/send/reset/passwordotp',data);
    };
 
    resendOtp(data?:any){
     return this.api.get('user/send/verification-email',data);
    };
 
+   resetPassword(data:any){
+    return this.api.patch('user/reset/password',data);
+   }
 
    verifyOtp(data:any){
     return this.api.patch('user/verify',data);
    }
+   verifyResetPasswordOtp(data:any){
+    return this.api.post('user/verify/resetpassword',data);
+   }
 
    logout(){
       this.storage.clearStorage();
-      this.router.navigateByUrl('user/signup');
+      this.router.navigate(['/signup']);
    };
 }

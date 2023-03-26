@@ -11,6 +11,7 @@ export class ApiService {
   constructor(public http:HttpClient,) { }
 
   get(url:any, data?:any): Observable<any>{
+    console.log(data)
     return this.http.get<any>(this.apiEndPoint.serverBaseUrl + url, data)
   };
 

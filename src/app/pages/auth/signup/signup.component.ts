@@ -54,19 +54,24 @@ export class SignupComponent implements OnInit {
           // this.globalSnakbar.successSnakBar(res.message);
           this.globalSnakbar.successSnakBar(`OTP sent to your ${res.data.email}`);
           this.emailVerification(res.data.email);
+          this.storage.setStorage('id', res?.data?._id);
           this.storage.setStorage('token', res?.data?.token);
           this.storage.setStorage('email', res?.data?.email);
-          this.storage.setStorage('emailVerified', res?.data?.emailVerified);
           this.authService.updateToken(res?.data?.token)
        }
     })
   };
 
   emailVerification(email:string){
+    let verifyEmail = {
+       email,
+       verifyEmail:true
+    };
+    
     this.matDialog.open(OtpSixDigitComponent, {
       panelClass:['otp-mat-dialog'],
       width:'600px',
-      data:email,
+      data:verifyEmail,
       disableClose:true,
     }).afterClosed()
     .pipe(filter((res) => res.status === HttpStatusCode.OK ))

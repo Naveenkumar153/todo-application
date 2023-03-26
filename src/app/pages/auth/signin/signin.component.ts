@@ -43,9 +43,9 @@ export class SigninComponent {
     this.authService.login(data).subscribe((res:any) => {
         if(res.status === HttpStatusCode.OK){
           this.globalSnakbar.successSnakBar('Successfully login');
+          this.storage.setStorage('id', res?.data?._id);
           this.storage.setStorage('token', res?.data?.token);
           this.storage.setStorage('email', res?.data?.email);
-          this.storage.setStorage('emailVerified', res?.data?.emailVerified);
           this.router.navigate(['/home'])
         }else{
             this.globalSnakbar.errorSnakBar(res?.error?.message);

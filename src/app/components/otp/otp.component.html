@@ -8,13 +8,17 @@
         </div> -->
         <div class="otp-text">
             <h3 class="otp-heading" mat-dialog-title>Enter verification code </h3>
-            <p  class="otp-subheading" >
-                We sent a 6-digit code to your <b class="otp-email">{{ data }}</b>
+            <p  class="otp-subheading" *ngIf="data?.verifyEmail">
+                We sent a 6-digit code to your <b class="otp-email">{{ data?.email }}</b>
+            </p>
+            <p  class="otp-subheading" *ngIf="data?.forgetPassword">
+                We sent a 6-digit reset password code to your <b class="otp-email">{{ data?.email }}</b>
             </p>
         </div>
         <mat-dialog-content>
             <div class="otp-box">
                 <ngx-otp-input
+                  #ngxotp
                  [config]="otpInputConfig"
                  (otpChange)="handleOtpChange($event)"
                  (fill)="handleFillEvent($event)" 
@@ -22,7 +26,7 @@
                 </ngx-otp-input>
             </div>
             <div class="resend-otp">
-                <button mat-button (click)="verifiEmail()">RESEND</button>
+                <button mat-button (click)="resendOTP()">RESEND</button>
             </div>
         </mat-dialog-content>
     </form>
