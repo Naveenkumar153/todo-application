@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { OtpComponent } from './otp/otp.component';
+import { ConformPassword } from './conform-password/conform-password.component';
 import { OnlyOneErrorPipe } from 'src/app/pipes/only-one-error-pipe';
 
 
@@ -20,9 +20,8 @@ import { OnlyOneErrorPipe } from 'src/app/pipes/only-one-error-pipe';
     SigninComponent,
     SignupComponent,
     ForgotPasswordComponent,
-    OtpComponent,
+    ConformPassword,
     OnlyOneErrorPipe
-
   ],
   imports: [
     CommonModule,
