@@ -48,6 +48,11 @@ export class AuthService {
     return this.api.get('user/send/verification-email',data);
    };
 
+   resendResetPasswordOtp(data:any){
+    return this.api.get('user/send/resetpassword/verification-email',data);
+   }
+
+
    resetPassword(data:any){
     return this.api.patch('user/reset/password',data);
    }

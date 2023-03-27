@@ -92,7 +92,12 @@ export class OtpSixDigitComponent implements OnInit {
        }
       );
     }else if(this.data.forgetPassword){
-      console.log(this.data)
+      this.authService.resendResetPasswordOtp(this.data.email).subscribe((res) => {
+        console.log(res)
+        if(res.status == HttpStatusCode.OK){
+          this.globalService.successSnakBar(`${res.message} to your ${this.data.email}`);
+        }
+      });
     }
   }
 
