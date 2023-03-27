@@ -12,6 +12,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog'
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +30,7 @@ import { ShowhidepasswordDirective } from './directive/showhidepassword.directiv
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { LoaderInterceptor } from './interceptor/loader.interceptor';
 import { LoaderComponent } from './components/loader/loader.component';
+import { HeaderComponent } from './components/header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +39,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     NotfoundComponent,
     ShowhidepasswordDirective,
     LoaderComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +56,12 @@ import { LoaderComponent } from './components/loader/loader.component';
     NgxOtpInputModule,
     MatDialogModule,
     FormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide:HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi:true },

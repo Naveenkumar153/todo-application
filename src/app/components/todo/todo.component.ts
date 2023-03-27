@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/services/global/global.service';
 
 @Component({
   selector: 'app-todo',
@@ -9,11 +10,26 @@ import { Router } from '@angular/router';
 })
 export class TodoComponent {
 
+  todo:{ _id: string, name: string }[]= [
+    // { _id:'1', name:'data' },
+    // { _id:'2', name:'Hello' },
+    // { _id:'3', name:'Hey' },
+    // { _id:'4', name:'Okay' },
+  ];
+
+  completedTodu:{ _id: string, name: string }[]= [
+    // { _id:'1', name:'data' },
+  ];
+
   form = this.fb.group({
     todo:[ '',[Validators.required]],
   });
 
-  constructor(public router:Router,private fb:NonNullableFormBuilder){
+  constructor(
+    public router:Router,
+    private fb:NonNullableFormBuilder,
+    public globalService:GlobalService
+  ){
 
   }
 
@@ -24,9 +40,27 @@ export class TodoComponent {
   }
 
   onSubmit(){
-    if(!this.form.valid) return
-    let data = this.form.value
-    console.log(data);
+    if(!this.form.valid){
+      this.globalService.errorSnakBar('Please enter the value')
+      return
+    }
+
+    this.todo.push({ _id:'1', name:this.form.value.todo! });
+    this.form.reset()
+
+
+  }
+
+  completeTodo(e:any){
+    console.log(e)
+  };
+
+  editTodo(id:string){
+    console.log(id)
+  }
+  deleteTodo(id:string){
+    console.log(id)
+    this.globalService.successSnakBar('Deleted successfully')
   }
 
 }

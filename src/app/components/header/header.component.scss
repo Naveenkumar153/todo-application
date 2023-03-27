@@ -1,0 +1,42 @@
+
+::ng-deep {
+    app-header{
+        .header{
+            left: 0;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16);
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            min-height: 60px;
+            position: relative; 
+                .avator{
+                    position: absolute;
+                    right: 50px;
+                    color: #dfdddd;
+                    background: #3f51b5;
+                    width: 60px;
+                    height: 50px;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    border-radius: 20%;
+                }
+        }
+    
+        .mat-mdc-menu-content{
+            padding: 0px !important;
+        }
+        .mat-menu-panel.mat-menu{
+            padding: 0px !important;
+            .mat-menu-item{
+                padding: 0px !important;
+            }
+            .mat-menu-item:hover{
+                color: #dfdddd;
+                background: #3f51b5;
+            }
+        }
+    }
+}

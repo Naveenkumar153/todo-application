@@ -58,7 +58,7 @@ export class AuthService {
    }
 
    verifyOtp(data:any){
-    return this.api.patch('user/verify',data);
+    return this.api.patch('user/verify/emailotp',data);
    }
    verifyResetPasswordOtp(data:any){
     return this.api.post('user/verify/resetpassword',data);

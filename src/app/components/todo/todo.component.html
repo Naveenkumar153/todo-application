@@ -1,3 +1,7 @@
+<div>
+    <app-header></app-header>
+</div>
+
 <div class="form">
     <mat-card class="mat-card">
         <mat-card-content class="mat-card-content">
@@ -7,7 +11,7 @@
                         <input matInput placeholder="Add new..." class="mat-input" name="todo" 
                         formControlName="todo">
                         <div class="left-align" matTextSuffix>
-                            <mat-icon matTextSuffix>calendar_today</mat-icon>
+                            <!-- <mat-icon matTextSuffix>calendar_today</mat-icon> -->
                             <div class="form-field add-todo" matTextSuffix>
                                 <button  mat-raised-button color="primary" class="add-todo__btn">Add</button>
                             </div>
@@ -17,4 +21,21 @@
             </form>
         </mat-card-content>
     </mat-card>
+
+    <div class="todo-list">
+        <h3 *ngIf="todo.length != 0">New Tasks</h3>
+        <ng-container *ngFor="let item of todo">
+            <div class="todo-list__data" >
+                <!-- <mat-checkbox (change)="completeTodo($event)" class="mat-checkbox"></mat-checkbox> -->
+                <span class="task">{{ item.name  }}</span>
+                <button  mat-icon-button (click)="editTodo(item._id)">
+                    <mat-icon mat-button class="edit-icon">edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteTodo(item._id)">
+                    <mat-icon class="delete-icon">delete_outline</mat-icon>
+                </button>
+            </div>
+        </ng-container>
+    </div>
+
 </div>
