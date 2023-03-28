@@ -14,7 +14,8 @@ export class TodoService {
 
 
   createTodo(data:any){
-    return this.api.post('user/user',data);
+    console.log(data)
+    return this.api.post('user/create/todos',data);
   };
 
   getTodo(data:any){

@@ -43,11 +43,8 @@ export class TodoComponent implements OnInit{
   userId:any;
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      console.log(params)
-      this.userId = params 
-      console.log(this.userId);
-    });
+    this.userId = this.localStorage.getStorage('id');
+    console.log(this.userId)
     this.todoService.getTodo(this.userId).subscribe(res => {
       console.log(res);
     });
@@ -63,9 +60,21 @@ export class TodoComponent implements OnInit{
     if(!this.form.valid){
       this.globalService.errorSnakBar('Please enter the value')
       return
-    }
+    };
 
-    this.todo.push({ _id:'1', name:this.form.value.todo! });
+    // let todoValue = this.form.value.todo!;
+
+    let values = {
+        title:this.form.value.todo!,
+        id:this.userId,
+    };
+    console.log(values)
+
+    this.todoService.createTodo(values).subscribe(res => {
+        this.globalService.successSnakBar(res);
+    });
+
+    // this.todo.push({ _id:'1', name:this.form.value.todo! });
     this.form.reset()
   }
 
