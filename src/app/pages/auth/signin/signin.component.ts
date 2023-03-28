@@ -46,7 +46,7 @@ export class SigninComponent {
           this.storage.setStorage('id', res?.data?._id);
           this.storage.setStorage('token', res?.data?.token);
           this.storage.setStorage('email', res?.data?.email);
-          this.router.navigate(['/home'])
+          this.router.navigate(['/home',res?.data?._id])
         }else{
             this.globalSnakbar.errorSnakBar(res?.error?.message);
         }

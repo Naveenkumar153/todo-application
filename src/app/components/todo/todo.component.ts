@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { GlobalService } from 'src/app/services/global/global.service';
+import { LocalstorageService } from 'src/app/services/storage/localstorage.service';
+import { TodoService } from 'src/app/services/todo/todo.service';
 
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.scss']
 })
-export class TodoComponent {
+export class TodoComponent implements OnInit{
 
   todo:{ _id: string, name: string }[]= [
     // { _id:'1', name:'data' },
@@ -28,10 +31,28 @@ export class TodoComponent {
   constructor(
     public router:Router,
     private fb:NonNullableFormBuilder,
-    public globalService:GlobalService
+    public globalService:GlobalService,
+    public authService:AuthService,
+    public todoService: TodoService,
+    public localStorage: LocalstorageService,
+    public route: ActivatedRoute ,
   ){
 
   }
+
+  userId:any;
+
+  ngOnInit(): void {
+
+    this.route.params.subscribe(params => {
+      this.userId = params 
+      console.log(this.userId);
+    });
+    this.todoService.getTodo(this.userId).subscribe(res => {
+      console.log(res);
+    });
+  }
+
 
   submit(){
     console.log(this.router)
@@ -47,8 +68,6 @@ export class TodoComponent {
 
     this.todo.push({ _id:'1', name:this.form.value.todo! });
     this.form.reset()
-
-
   }
 
   completeTodo(e:any){
@@ -61,6 +80,7 @@ export class TodoComponent {
   deleteTodo(id:string){
     console.log(id)
     this.globalService.successSnakBar('Deleted successfully')
-  }
+  };
+
 
 }

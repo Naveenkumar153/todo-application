@@ -66,6 +66,7 @@ export class AuthService {
 
    logout(){
       this.storage.clearStorage();
+      this._token$.next(null!);
       this.router.navigate(['/signup']);
    };
 }
