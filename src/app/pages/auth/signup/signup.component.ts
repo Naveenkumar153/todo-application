@@ -43,23 +43,24 @@ export class SignupComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    
   }
 
   onSubmit(){
     if(!this.form.valid) return
-    let data = this.form.value
-    this.authService.register(data).subscribe(res => {
-       if(res.status === HttpStatusCode.OK){
-          // this.globalSnakbar.successSnakBar(res.message);
-          this.globalSnakbar.successSnakBar(`OTP sent to your ${res.data.email}`);
-          this.emailVerification(res.data.email);
-          this.storage.setStorage('id', res?.data?._id);
-          this.storage.setStorage('token', res?.data?.token);
-          this.storage.setStorage('email', res?.data?.email);
-          this.authService.updateToken(res?.data?.token)
-       }
-    })
+    let data = this.form.value;
+    if(this.form.valid){
+      this.authService.register(data).subscribe(res => {
+         if(res.status === HttpStatusCode.OK){
+           this.authService.updateToken(res?.data?.token)
+            // this.globalSnakbar.successSnakBar(res.message);
+            this.globalSnakbar.successSnakBar(`OTP sent to your ${res.data.email}`);
+            this.emailVerification(res.data.email);
+            this.storage.setStorage('id', res?.data?._id);
+            this.storage.setStorage('token', res?.data?.token);
+            this.storage.setStorage('email', res?.data?.email);
+         }
+      })
+    }
   };
 
   emailVerification(email:string){

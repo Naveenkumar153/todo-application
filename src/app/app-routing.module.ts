@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path:'', loadChildren:() => import('./pages/auth/auth.module').then(m => m.AuthModule) },
   { 
-    path:'home/:id', 
+    path:'home', 
     component:TodoComponent,
     canActivate:[AuthGuard]
   },

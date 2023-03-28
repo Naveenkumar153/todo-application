@@ -10,11 +10,11 @@ export class LocalstorageService {
   }
 
   setStorage(key:any,value:any){
-    localStorage.setItem(key,value)
+    localStorage.setItem(key,JSON.stringify(value))
   }
 
   getStorage(key:any){
-    return localStorage.getItem(key);
+    return JSON.parse(localStorage.getItem(key)!);
   }
 
   removeStorage(key:any){

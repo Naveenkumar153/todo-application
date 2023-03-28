@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { createPasswordStrengthValidator } from 'src/app/validators/password-str
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss']
 })
-export class SigninComponent {
+export class SigninComponent implements OnInit{
 
   showPassword: boolean = false;
 
@@ -37,21 +37,28 @@ export class SigninComponent {
     
   }
 
+  ngOnInit(): void {
+  }
+
   onSubmit(){
     if(!this.form.valid) return
-    let data = this.form.value
-    this.authService.login(data).subscribe((res:any) => {
-        if(res.status === HttpStatusCode.OK){
-          this.globalSnakbar.successSnakBar('Successfully login');
-          this.storage.setStorage('id', res?.data?._id);
-          this.storage.setStorage('token', res?.data?.token);
-          this.storage.setStorage('email', res?.data?.email);
-          this.router.navigate(['/home',res?.data?._id])
-        }else{
-            this.globalSnakbar.errorSnakBar(res?.error?.message);
+
+    if(this.form.valid){
+      let data = this.form.value
+      this.authService.login(data).subscribe((res:any) => {
+          if(res.status === HttpStatusCode.OK){
+            this.authService.updateToken(res?.data?.token)
+            this.storage.setStorage('id', res?.data?._id);
+            this.storage.setStorage('token', res?.data?.token);
+            this.storage.setStorage('email', res?.data?.email);
+            this.router.navigateByUrl('/home')
+            this.globalSnakbar.successSnakBar('Successfully login');
+          }else{
+              this.globalSnakbar.errorSnakBar(res?.error?.message);
+          }
         }
-      }
-    )
+      )
+    }
   };
 
   get email() {

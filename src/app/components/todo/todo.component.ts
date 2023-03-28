@@ -43,8 +43,8 @@ export class TodoComponent implements OnInit{
   userId:any;
 
   ngOnInit(): void {
-
     this.route.params.subscribe(params => {
+      console.log(params)
       this.userId = params 
       console.log(this.userId);
     });
@@ -56,7 +56,6 @@ export class TodoComponent implements OnInit{
 
   submit(){
     console.log(this.router)
-    // this.router.navigate(['/auth/signin'])
     this.router.navigate(['/signin'])
   }
 
