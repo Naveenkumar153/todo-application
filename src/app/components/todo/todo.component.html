@@ -23,15 +23,15 @@
     </mat-card>
 
     <div class="todo-list">
-        <h3 *ngIf="todo.length != 0">New Tasks</h3>
+        <!-- <h3 *ngIf="todo.length == 0">New Tasks</h3> -->
         <ng-container *ngFor="let item of todo">
             <div class="todo-list__data" >
-                <!-- <mat-checkbox (change)="completeTodo($event)" class="mat-checkbox"></mat-checkbox> -->
-                <span class="task">{{ item.name  }}</span>
-                <button  mat-icon-button (click)="editTodo(item._id)">
+                <mat-checkbox (change)="completeTodo($event)" class="mat-checkbox"></mat-checkbox>
+                <span class="task">{{ item.title  }}</span>
+                <button  mat-icon-button (click)="editTodo(item)">
                     <mat-icon mat-button class="edit-icon">edit</mat-icon>
                 </button>
-                <button mat-icon-button (click)="deleteTodo(item._id)">
+                <button mat-icon-button (click)="deleteTodo(item)">
                     <mat-icon class="delete-icon">delete_outline</mat-icon>
                 </button>
             </div>
