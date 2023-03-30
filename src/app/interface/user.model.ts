@@ -13,6 +13,7 @@ export interface signIn{
 }
 
 export interface todo{
-    completed:false,
-    name:string,
+    completed:boolean,
+    title:string,
+    _id:string
 }

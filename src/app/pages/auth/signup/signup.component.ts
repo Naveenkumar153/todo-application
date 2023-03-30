@@ -48,6 +48,7 @@ export class SignupComponent implements OnInit {
   onSubmit(){
     if(!this.form.valid) return
     let data = this.form.value;
+    console.log(data)
     if(this.form.valid){
       this.authService.register(data).subscribe(res => {
          if(res.status === HttpStatusCode.OK){
@@ -58,12 +59,14 @@ export class SignupComponent implements OnInit {
             this.storage.setStorage('id', res?.data?._id);
             this.storage.setStorage('token', res?.data?.token);
             this.storage.setStorage('email', res?.data?.email);
+            this.storage.setStorage('email_verify', res?.data?.email_verify);
+            this.storage.setStorage('userName', res?.data?.userName);
          }
       })
     }
   };
 
-  emailVerification(email:string){
+  public emailVerification(email:string){
     let verifyEmail = {
        email,
        verifyEmail:true
@@ -75,7 +78,7 @@ export class SignupComponent implements OnInit {
       data:verifyEmail,
       disableClose:true,
     }).afterClosed()
-    .pipe(filter((res) => res.status === HttpStatusCode.OK ))
+    .pipe()
     .subscribe();
   };
 

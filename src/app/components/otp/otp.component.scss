@@ -31,3 +31,20 @@
         }
     }
 }
+
+.edit-todo{
+    .close-dialog{
+        @extend %flex-shared;
+        justify-content: flex-end;
+    }
+    .mat-form-field{
+        width: 100%;
+    }
+}
+
+.mat-form-filed-outline{
+    border: none !important;
+}
+.mat-form-field-appearance-outline{
+    border-bottom: none !important;
+}

@@ -24,8 +24,8 @@ export class ApiService {
   put(url:any, data:any): Observable<any>{
     return this.http.put<any>(this.apiEndPoint.serverBaseUrl + url, data)
   };
-  delete(url:any, data:any): Observable<any>{
-    return this.http.delete<any>(this.apiEndPoint.serverBaseUrl + url, data)
+  delete(url:any): Observable<any>{
+    return this.http.delete<any>(this.apiEndPoint.serverBaseUrl + url)
   };
   
 }

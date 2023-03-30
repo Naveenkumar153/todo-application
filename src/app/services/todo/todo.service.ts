@@ -27,7 +27,8 @@ export class TodoService {
   };
 
   deleteTodo(data:any){
-    return this.api.delete('user/user',data);
+    console.log(data.todo._id);
+    return this.api.delete(`user/deleteTodos?userId=${data.userId}&todoId=${data.todo._id}`);
   }
 
 

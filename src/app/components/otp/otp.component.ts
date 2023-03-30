@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgxOtpInputComponent, NgxOtpInputConfig } from 'ngx-otp-input';
@@ -18,7 +19,13 @@ export class OtpSixDigitComponent implements OnInit {
   @ViewChild('ngxotp') ngxOtp!: NgxOtpInputComponent;
   getResendOtp:any;
 
+
+  form = this.fb.group({
+    todo:[ '',[Validators.required]],
+  });
+
   constructor(
+    private fb:NonNullableFormBuilder,
     public dialogRef: MatDialogRef<OtpSixDigitComponent>,
     public router:Router,
     public globalService:GlobalService,
@@ -30,6 +37,7 @@ export class OtpSixDigitComponent implements OnInit {
     }
 
     ngOnInit(): void {
+      console.log(this.data)
     }
 
   otpInputConfig:NgxOtpInputConfig  = {
@@ -56,6 +64,8 @@ export class OtpSixDigitComponent implements OnInit {
       if(value){
         this.authService.verifyOtp({ verification_token:value }).subscribe(res => {
           if(res.status == HttpStatusCode.OK){
+            console.log(res);
+            this.localStorage.setStorage('email_verify',res.data)
             this.globalService.successSnakBar(res.message);
             this.router.navigate(['/home']);
             this.dialogRef.close();
@@ -99,6 +109,13 @@ export class OtpSixDigitComponent implements OnInit {
         }
       });
     }
+  };
+
+  onSubmit(){
+    if(this.form.invalid) return
+    this.data.todoValue.title = this.form.value.todo
+    console.log(this.data.todoValue);
+    this.dialogRef.close(this.data.todoValue);
   }
 
 }

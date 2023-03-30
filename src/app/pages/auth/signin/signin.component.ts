@@ -51,6 +51,7 @@ export class SigninComponent implements OnInit{
             this.storage.setStorage('id', res?.data?._id);
             this.storage.setStorage('token', res?.data?.token);
             this.storage.setStorage('email', res?.data?.email);
+            this.storage.setStorage('userName', res?.data?.userName);
             this.router.navigateByUrl('/home')
             this.globalSnakbar.successSnakBar('Successfully login');
           }else{
