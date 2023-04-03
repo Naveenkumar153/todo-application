@@ -9,18 +9,21 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { HttpStatusCode } from '../enum/httpstatuscode';
 import { GlobalService } from '../services/global/global.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor( private globalService:GlobalService ) {}
+  constructor( private globalService:GlobalService, private authService:AuthService ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === HttpStatusCode.UNAUTHORIZED) {
-          this.globalService.errorSnakBar('Unauthorized user please register' || err.statusText)
+          this.authService.logout();
+          this.globalService.errorSnakBar('Unauthorized user please register' || err.statusText);
+
         }else if(err.status == HttpStatusCode.BAD_REQUEST){
           this.globalService.errorSnakBar(err.error?.message || err.statusText)
         }else if(err.status == HttpStatusCode.INTERNAL_SERVER_ERROR){

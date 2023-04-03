@@ -23,7 +23,7 @@ export class TodoService {
   };
 
   updateTodo(data:any){
-    return this.api.put('user/user',data);
+    return this.api.patch('user/updateTodos',data);
   };
 
   deleteTodo(data:any){

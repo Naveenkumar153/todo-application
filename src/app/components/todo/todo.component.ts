@@ -119,7 +119,15 @@ export class TodoComponent implements OnInit{
         userId:this.userId,
         todo:res
       }
-      console.log(values);
+      this.todoService.updateTodo(values).subscribe(res => {
+        console.log(res);
+         if(res.status === HttpStatusCode.OK){
+           this.globalService.successSnakBar(res?.message);
+           this.getAllTodos();
+         }else{
+          this.globalService.errorSnakBar('somethings is wrong')
+         }
+      }); 
     });
   };
 
