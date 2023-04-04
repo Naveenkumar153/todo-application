@@ -63,7 +63,7 @@ export class OtpSixDigitComponent implements OnInit {
     if(this.data?.verifyEmail){
       if(value){
         this.authService.verifyOtp({ verification_token:value }).subscribe(res => {
-          if(res.status == HttpStatusCode.OK){
+          if(res?.status == HttpStatusCode.OK){
             console.log(res);
             this.localStorage.setStorage('email_verify',res.data)
             this.globalService.successSnakBar(res.message);
@@ -72,13 +72,13 @@ export class OtpSixDigitComponent implements OnInit {
           }
         });
       }
-    }else if(this.data.forgetPassword){
+    }else if(this.data?.forgetPassword){
       console.log(this.data)
       if(value){
         console.log(value);
         this.authService.verifyResetPasswordOtp( { reset_password_token:value, email:this.data.email }).subscribe(res => {
           console.log(res)
-          if(res.status == HttpStatusCode.OK){
+          if(res?.status == HttpStatusCode.OK){
             this.localStorage.setStorage('email',this.data.email);
             this.globalService.successSnakBar(res.message);
             this.router.navigate(['/conform-password']);

@@ -20,7 +20,8 @@ import { OtpSixDigitComponent } from '../otp/otp.component';
 
 export class TodoComponent implements OnInit{
 
-  todo:{ title: string, completed: boolean }[] = [];
+  totalTodo:{ title: string, completed: boolean }[] = [];
+  completedTodo:{ title: string, completed: boolean }[] = [];
   emailVerify:boolean = false;
   email:string = '';
   completedTodu = [];
@@ -58,12 +59,21 @@ export class TodoComponent implements OnInit{
   getAllTodos(){
     this.todoService.getTodo(this.userId).subscribe((res) => {
       if(res.data.length === 0){
-         this.todo.length = 0;
+         this.totalTodo.length = 0;
          return;
       }
-      this.todo = [...res.data]
-      console.log(this.todo);
-     
+      let values;
+      values = [...res.data]  
+      values.filter((i) => {
+         if(i.completed){
+           this.completedTodo.push(i);
+          }else{
+           this.totalTodo.push(i);
+         }
+      });
+      console.log(this.totalTodo);
+      console.log(this.completedTodo);
+
     });
   }
 
@@ -72,8 +82,6 @@ export class TodoComponent implements OnInit{
       this.globalService.errorSnakBar('Please enter the value')
       return
   };
-
-    // let todoValue = this.form.value.todo!;
 
     let values = {
         completed:false,
@@ -92,8 +100,20 @@ export class TodoComponent implements OnInit{
     this.form.reset()
   }
 
-  completeTodo(e:any){
-    console.log(e)
+  completeTodo(e:any,item:any){
+    item.completed  = e.checked
+    let values = {
+      userId:this.userId,
+      todo:item
+    }
+    this.todoService.updateTodo(values).subscribe(res => {
+       if(res.status === HttpStatusCode.OK){
+         this.globalService.successSnakBar(res?.message);
+         this.getAllTodos();
+       }else{
+        this.globalService.errorSnakBar('somethings is wrong')
+       }
+    }); 
   };
   
   editTodo(value:any){
@@ -165,9 +185,7 @@ export class TodoComponent implements OnInit{
       disableClose:true,
     }).afterClosed()
     .pipe()
-    .subscribe(res => {
-       console.log(res);
-    });
+    .subscribe();
   };
 
 

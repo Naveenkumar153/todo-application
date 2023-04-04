@@ -10,8 +10,8 @@ export class ApiService {
   private apiEndPoint = environment
   constructor(public http:HttpClient,) { }
 
-  get(url:any, data?:any): Observable<any>{
-    return this.http.get<any>(this.apiEndPoint.serverBaseUrl + url, data)
+  get(url:any): Observable<any>{
+    return this.http.get<any>(this.apiEndPoint.serverBaseUrl + url)
   };
 
   post(url:any, data:any): Observable<any>{

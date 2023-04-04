@@ -2,7 +2,7 @@
 
 <div class="header">
       <mat-toolbar>
-          <div class="avator"  [matMenuTriggerFor]="menu">NK</div>
+          <div class="avator"  [matMenuTriggerFor]="menu">{{ navBarName | uppercase }}</div>
       </mat-toolbar>
 
       <mat-menu color="primary"  #menu="matMenu" class="mat-menu">

@@ -19,7 +19,7 @@ export class TodoService {
   };
 
   getTodo(data:any){
-    return this.api.get('user/getTodos',data);
+    return this.api.get(`user/getTodos?todos=${data}`);
   };
 
   updateTodo(data:any){

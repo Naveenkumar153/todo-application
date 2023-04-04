@@ -45,15 +45,16 @@ export class AuthService {
    };
 
    resendOtp(data?:any){
-    return this.api.get('user/send/verification-email',data);
+    return this.api.get(`user/send/verification-email?email=${data}`);
    };
 
    resendResetPasswordOtp(data:any){
-    return this.api.get('user/send/resetpassword/verification-email',data);
+    return this.api.get(`user/send/resetpassword/verification-email?email=${data}`);
    }
 
 
    resetPassword(data:any){
+    console.log(data);
     return this.api.patch('user/reset/password',data);
    }
 
