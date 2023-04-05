@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Route, Router } from '@angular/router';
@@ -15,13 +15,14 @@ import { OtpSixDigitComponent } from '../otp/otp.component';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.scss']
+  styleUrls: ['./todo.component.scss'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 
 export class TodoComponent implements OnInit{
 
-  totalTodo:{ title: string, completed: boolean }[] = [];
-  completedTodo:{ title: string, completed: boolean }[] = [];
+  totalTodo:{ title: string, completed: boolean, _id:string }[] = [];
+  completedTodo:{ title: string, completed: boolean, _id:string }[] = [];
   emailVerify:boolean = false;
   email:string = '';
   completedTodu = [];
@@ -39,6 +40,7 @@ export class TodoComponent implements OnInit{
     public localStorage: LocalstorageService,
     public route: ActivatedRoute ,
     private matDialog: MatDialog,
+    public changeDetectionRef:ChangeDetectorRef
   ){
     this.userId = this.localStorage.getStorage('id');
     this.emailVerify = this.localStorage.getStorage('email_verify');
@@ -58,22 +60,35 @@ export class TodoComponent implements OnInit{
 
   getAllTodos(){
     this.todoService.getTodo(this.userId).subscribe((res) => {
-      if(res.data.length === 0){
-         this.totalTodo.length = 0;
-         return;
+      if (res.data.length === 0) {
+        this.totalTodo.length = 0;
+        return;
       }
+    
       let values;
-      values = [...res.data]  
-      values.filter((i) => {
-         if(i.completed){
-           this.completedTodo.push(i);
-          }else{
-           this.totalTodo.push(i);
-         }
+      values = [...res.data];
+      const newTotalTodo:any[] = [];
+      const newCompletedTodo:any[] = [];
+    
+      values.forEach((i) => {
+        const newItem = { ...i };
+        if (i.completed) {
+          if (!this.completedTodo.some((item) => item._id === newItem._id)) {
+            newCompletedTodo.push(newItem);
+          }
+        } else {
+          if (!this.totalTodo.some((item) => item._id === newItem._id)) {
+            newTotalTodo.push(newItem);
+          }
+        }
       });
-      console.log(this.totalTodo);
-      console.log(this.completedTodo);
-
+    
+      // Update the arrays
+      this.totalTodo = [...this.totalTodo, ...newTotalTodo];
+      this.completedTodo = [...this.completedTodo, ...newCompletedTodo];
+    
+      // Detect changes and update the UI
+      this.changeDetectionRef.detectChanges();
     });
   }
 
@@ -81,14 +96,13 @@ export class TodoComponent implements OnInit{
     if(!this.form.valid){
       this.globalService.errorSnakBar('Please enter the value')
       return
-  };
+    };
 
     let values = {
         completed:false,
         title:this.form.value.todo!,
         id:this.userId,
     };
-    console.log(values)
 
     this.todoService.createTodo(values).subscribe(res => {
         if(res.status === HttpStatusCode.OK){
@@ -109,11 +123,12 @@ export class TodoComponent implements OnInit{
     this.todoService.updateTodo(values).subscribe(res => {
        if(res.status === HttpStatusCode.OK){
          this.globalService.successSnakBar(res?.message);
-         this.getAllTodos();
+         
        }else{
         this.globalService.errorSnakBar('somethings is wrong')
        }
     }); 
+    this.getAllTodos();
   };
   
   editTodo(value:any){
@@ -159,10 +174,12 @@ export class TodoComponent implements OnInit{
     }
     console.log(values);
     this.todoService.deleteTodo(values).subscribe(res => {
-         console.log(res);
          if(res.status === HttpStatusCode.OK){
            this.globalService.successSnakBar(res?.message);
            this.getAllTodos();
+          //  this.changeDetectionRef.markForCheck();
+          //  this.changeDetectionRef.detach();
+           this.changeDetectionRef.reattach();
          }else{
           this.globalService.errorSnakBar('somethings is wrong')
          }
