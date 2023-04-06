@@ -48,7 +48,6 @@ export class SignupComponent implements OnInit {
   onSubmit(){
     if(!this.form.valid) return
     let data = this.form.value;
-    console.log(data)
     if(this.form.valid){
       this.authService.register(data).subscribe(res => {
          if(res.status === HttpStatusCode.OK){

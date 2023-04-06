@@ -37,10 +37,8 @@ export class ForgotPasswordComponent {
     
     if(!this.form.valid) return;
     let email = this.form.value
-    console.log(email);
 
     this.authService.resetPasswordOtp(email).subscribe((res) => {
-       console.log(res);
        this.globalSnakbar.successSnakBar(`Reset password OTP sent to your ${res.data.email}`);
        this.resetPasswordOtp(res.data.email)
     });

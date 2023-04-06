@@ -36,9 +36,7 @@ export class OtpSixDigitComponent implements OnInit {
       
     }
 
-    ngOnInit(): void {
-      console.log(this.data)
-    }
+    ngOnInit(): void { }
 
   otpInputConfig:NgxOtpInputConfig  = {
     otpLength:6,
@@ -59,7 +57,6 @@ export class OtpSixDigitComponent implements OnInit {
   };
   
   handleFillEvent(value:string):void { 
-    console.log(this.data);
     if(this.data?.verifyEmail){
       if(value){
         this.authService.verifyOtp({ verification_token:value }).subscribe(res => {
@@ -73,11 +70,8 @@ export class OtpSixDigitComponent implements OnInit {
         });
       }
     }else if(this.data?.forgetPassword){
-      console.log(this.data)
       if(value){
-        console.log(value);
         this.authService.verifyResetPasswordOtp( { reset_password_token:value, email:this.data.email }).subscribe(res => {
-          console.log(res)
           if(res?.status == HttpStatusCode.OK){
             this.localStorage.setStorage('email',this.data.email);
             this.globalService.successSnakBar(res.message);
@@ -103,7 +97,6 @@ export class OtpSixDigitComponent implements OnInit {
       );
     }else if(this.data.forgetPassword){
       this.authService.resendResetPasswordOtp(this.data.email).subscribe((res) => {
-        console.log(res)
         if(res.status == HttpStatusCode.OK){
           this.globalService.successSnakBar(`${res.message} to your ${this.data.email}`);
         }
@@ -114,7 +107,6 @@ export class OtpSixDigitComponent implements OnInit {
   onSubmit(){
     if(this.form.invalid) return
     this.data.todoValue.title = this.form.value.todo
-    console.log(this.data.todoValue);
     this.dialogRef.close(this.data.todoValue);
   }
 

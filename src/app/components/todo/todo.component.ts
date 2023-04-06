@@ -21,11 +21,10 @@ import { OtpSixDigitComponent } from '../otp/otp.component';
 
 export class TodoComponent implements OnInit{
 
-  totalTodo:{ title: string, completed: boolean, _id:string }[] = [];
-  completedTodo:{ title: string, completed: boolean, _id:string }[] = [];
+  totalTodo:{ title: string, completed: boolean }[] = [];
+  // completedTodo:{ title: string, completed: boolean, _id:string }[] = [];
   emailVerify:boolean = false;
   email:string = '';
-  completedTodu = [];
 
   form = this.fb.group({
     todo:[ '',[Validators.required]],
@@ -50,8 +49,6 @@ export class TodoComponent implements OnInit{
   userId:any;
 
   ngOnInit(): void {
-    console.log(this.userId);
-    console.log(this.emailVerify)
     if(!this.emailVerify){
       this.emailVerification(this.email)
     }
@@ -62,33 +59,37 @@ export class TodoComponent implements OnInit{
     this.todoService.getTodo(this.userId).subscribe((res) => {
       if (res.data.length === 0) {
         this.totalTodo.length = 0;
+        this.totalTodo = [...res.data]
+        this.changeDetectionRef.detectChanges();
         return;
       }
-    
-      let values;
-      values = [...res.data];
-      const newTotalTodo:any[] = [];
-      const newCompletedTodo:any[] = [];
-    
-      values.forEach((i) => {
-        const newItem = { ...i };
-        if (i.completed) {
-          if (!this.completedTodo.some((item) => item._id === newItem._id)) {
-            newCompletedTodo.push(newItem);
-          }
-        } else {
-          if (!this.totalTodo.some((item) => item._id === newItem._id)) {
-            newTotalTodo.push(newItem);
-          }
-        }
-      });
-    
-      // Update the arrays
-      this.totalTodo = [...this.totalTodo, ...newTotalTodo];
-      this.completedTodo = [...this.completedTodo, ...newCompletedTodo];
-    
-      // Detect changes and update the UI
+
+      this.totalTodo = [...res.data]
       this.changeDetectionRef.detectChanges();
+    
+      // let values;
+      // values = [...res.data];
+      // const newTotalTodo:any[] = [];
+      // const newCompletedTodo:any[] = [];
+    
+      // values.forEach((i) => {
+      //   const newItem = { ...i };
+      //   if (i.completed) {
+      //     if (!this.completedTodo.some((item) => item._id === newItem._id)) {
+      //       newCompletedTodo.push(newItem);
+      //     }
+      //   } else {
+      //     if (!this.totalTodo.some((item) => item._id === newItem._id)) {
+      //       newTotalTodo.push(newItem);
+      //     }
+      //   }
+      // });
+    
+      // // Update the arrays
+      // this.totalTodo = [...this.totalTodo, ...newTotalTodo];
+      // this.completedTodo = [...this.completedTodo, ...newCompletedTodo];
+    
+      // // Detect changes and update the UI
     });
   }
 
@@ -114,25 +115,24 @@ export class TodoComponent implements OnInit{
     this.form.reset()
   }
 
-  completeTodo(e:any,item:any){
-    item.completed  = e.checked
-    let values = {
-      userId:this.userId,
-      todo:item
-    }
-    this.todoService.updateTodo(values).subscribe(res => {
-       if(res.status === HttpStatusCode.OK){
-         this.globalService.successSnakBar(res?.message);
+  // completeTodo(e:any,item:any){
+  //   item.completed  = e.checked
+  //   let values = {
+  //     userId:this.userId,
+  //     todo:item
+  //   }
+  //   this.todoService.updateTodo(values).subscribe(res => {
+  //      if(res.status === HttpStatusCode.OK){
+  //        this.globalService.successSnakBar(res?.message);
+  //        this.getAllTodos();
          
-       }else{
-        this.globalService.errorSnakBar('somethings is wrong')
-       }
-    }); 
-    this.getAllTodos();
-  };
+  //      }else{
+  //       this.globalService.errorSnakBar('somethings is wrong')
+  //      }
+  //   }); 
+  // };
   
   editTodo(value:any){
-    console.log(value)
     this.editTodoData(value);
   }
 
@@ -155,7 +155,6 @@ export class TodoComponent implements OnInit{
         todo:res
       }
       this.todoService.updateTodo(values).subscribe(res => {
-        console.log(res);
          if(res.status === HttpStatusCode.OK){
            this.globalService.successSnakBar(res?.message);
            this.getAllTodos();
@@ -172,14 +171,10 @@ export class TodoComponent implements OnInit{
       userId:this.userId,
       todo:value
     }
-    console.log(values);
     this.todoService.deleteTodo(values).subscribe(res => {
          if(res.status === HttpStatusCode.OK){
            this.globalService.successSnakBar(res?.message);
            this.getAllTodos();
-          //  this.changeDetectionRef.markForCheck();
-          //  this.changeDetectionRef.detach();
-           this.changeDetectionRef.reattach();
          }else{
           this.globalService.errorSnakBar('somethings is wrong')
          }

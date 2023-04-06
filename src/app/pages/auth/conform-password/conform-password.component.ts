@@ -37,12 +37,10 @@ export class ConformPassword {
 
      if(this.form.valid){
         let email = this.localStorage.getStorage('email');
-        console.log(email)
         let data = {
           email:email,
           password:this.form.value.password?.trim()
         };
-        console.log(data)
         this.authService.resetPassword(data).subscribe(res => {
             if(res.status === HttpStatusCode.OK){
                 this.globalService.successSnakBar(res.message);

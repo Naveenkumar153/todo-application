@@ -29,7 +29,7 @@
             <h3 *ngIf="totalTodo.length >= 2">New Tasks</h3>
             <ng-container *ngFor="let item of totalTodo">
                 <div class="todo-list__data" >
-                    <mat-checkbox (change)="completeTodo($event,item)" class="mat-checkbox"></mat-checkbox>
+                    <!-- <mat-checkbox (change)="completeTodo($event,item)" class="mat-checkbox"></mat-checkbox> -->
                     <span class="task">{{ item.title  }}</span>
                     <button  mat-icon-button (click)="editTodo(item)">
                         <mat-icon mat-button class="edit-icon">edit</mat-icon>
@@ -40,7 +40,7 @@
                 </div>
             </ng-container>
         </div>
-        <div class="todo-list__completed" *ngIf="completedTodo.length >= 1">
+        <!-- <div class="todo-list__completed" *ngIf="completedTodo.length >= 1">
             <h3 >Completed Tasks</h3>
             <ng-container *ngFor="let item of completedTodo">
                 <div class="todo-list__data" >
@@ -50,7 +50,7 @@
                     </button>
                 </div>
             </ng-container>
-        </div>
+        </div> -->
     </div>
 
 </div>

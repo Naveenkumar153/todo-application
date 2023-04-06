@@ -14,7 +14,6 @@ export class TodoService {
 
 
   createTodo(data:any){
-    console.log(data)
     return this.api.post('user/create/todos',data);
   };
 
@@ -27,7 +26,6 @@ export class TodoService {
   };
 
   deleteTodo(data:any){
-    console.log(data.todo._id);
     return this.api.delete(`user/deleteTodos?userId=${data.userId}&todoId=${data.todo._id}`);
   }
 

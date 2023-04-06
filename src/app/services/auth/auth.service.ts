@@ -1,8 +1,6 @@
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, from } from 'rxjs';
-import { signUp } from 'src/app/interface/user.model';
+import { BehaviorSubject,} from 'rxjs';
 import { ApiService } from '../api/api.service';
 import { LocalstorageService } from '../storage/localstorage.service';
 @Injectable({
@@ -54,7 +52,6 @@ export class AuthService {
 
 
    resetPassword(data:any){
-    console.log(data);
     return this.api.patch('user/reset/password',data);
    }
 
