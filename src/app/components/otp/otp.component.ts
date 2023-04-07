@@ -61,7 +61,6 @@ export class OtpSixDigitComponent implements OnInit {
       if(value){
         this.authService.verifyOtp({ verification_token:value }).subscribe(res => {
           if(res?.status == HttpStatusCode.OK){
-            console.log(res);
             this.localStorage.setStorage('email_verify',res.data)
             this.globalService.successSnakBar(res.message);
             this.router.navigate(['/home']);

@@ -26,20 +26,20 @@ import { TokenInterceptor } from './interceptor/token.interceptor';
 import { TodoComponent } from './components/todo/todo.component';
 import { OtpSixDigitComponent } from './components/otp/otp.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import { ShowhidepasswordDirective } from './directive/showhidepassword.directive';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { LoaderInterceptor } from './interceptor/loader.interceptor';
 import { LoaderComponent } from './components/loader/loader.component';
 import { HeaderComponent } from './components/header/header.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 @NgModule({
   declarations: [
     AppComponent,
     TodoComponent,
     OtpSixDigitComponent,
     NotfoundComponent,
-    ShowhidepasswordDirective,
     LoaderComponent,
     HeaderComponent,
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule,

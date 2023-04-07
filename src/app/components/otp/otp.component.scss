@@ -29,6 +29,14 @@
                 margin-left: 20px !important;
             }
         }
+        .otp-valid__time{
+            position: absolute;
+            top: 63%;
+            left: 25%;
+            span{
+                font-size: 0.8rem;
+            }
+        }
     }
 }
 
