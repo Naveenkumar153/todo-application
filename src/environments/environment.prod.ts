@@ -1,4 +1,4 @@
 export const environment = {
     production:true,
-    serverBaseUrl:'http://localhost:3030/api/',
+    serverBaseUrl:'http://todoapps-gpcg.onrender.com/api/',
 }
